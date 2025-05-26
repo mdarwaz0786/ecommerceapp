@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { removeFromCart, updateQuantity } from '../features/cartSlice';
 
@@ -19,22 +19,28 @@ const CartItem = ({ item }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <Image source={{ uri: item.thumbnail }} style={styles.image} />
-      <View style={styles.details}>
+    <ScrollView contentContainerStyle={styles.container}>
+      <View style={styles.imageContainer}>
+        <Image source={{ uri: item.thumbnail }} style={styles.image} />
+      </View>
+
+      <View style={styles.detailsContainer}>
         <Text style={styles.title}>{item.title}</Text>
         <Text style={styles.price}>${item.price}</Text>
-        <View style={styles.quantityContainer}>
-          <TouchableOpacity onPress={handleDecrease} style={styles.button}>
-            <Text>-</Text>
-          </TouchableOpacity>
-          <Text style={styles.quantity}>{item.quantity}</Text>
-          <TouchableOpacity onPress={handleIncrease} style={styles.button}>
-            <Text>+</Text>
-          </TouchableOpacity>
-        </View>
       </View>
-    </View>
+
+      <View style={styles.quantityContainer}>
+        <TouchableOpacity onPress={handleIncrease} style={styles.button}>
+          <Text style={styles.buttonText}>+</Text>
+        </TouchableOpacity>
+
+        <Text style={styles.quantity}>{item.quantity}</Text>
+
+        <TouchableOpacity onPress={handleDecrease} style={styles.button}>
+          <Text style={styles.buttonText}>-</Text>
+        </TouchableOpacity>
+      </View>
+    </ScrollView>
   );
 };
 
@@ -45,35 +51,48 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     backgroundColor: '#fff',
     borderRadius: 10,
-    elevation: 2,
+    alignItems: 'center',
   },
-  image: {
+  imageContainer: {
     width: 80,
     height: 80,
-    borderRadius: 10,
+    marginRight: 10,
   },
-  details: {
+  image: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 10,
+    resizeMode: 'contain',
+  },
+  detailsContainer: {
     flex: 1,
-    marginLeft: 10,
-    justifyContent: 'space-between',
+    justifyContent: 'center',
   },
   title: {
-    fontWeight: 'bold',
+    fontWeight: '500',
+    fontSize: 16,
+    marginBottom: 5,
   },
   price: {
     color: 'green',
+    fontSize: 14,
   },
   quantityContainer: {
-    flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
+    height: 80,
   },
   button: {
-    padding: 5,
-    backgroundColor: '#f2f2f2',
+    paddingVertical: 4,
+    paddingHorizontal: 10,
     borderRadius: 5,
   },
+  buttonText: {
+    fontSize: 20,
+    color: '#6CC51D',
+  },
   quantity: {
-    marginHorizontal: 10,
+    fontSize: 16,
   },
 });
 

@@ -1,31 +1,24 @@
+// features/productSlice.js
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-export const fetchProducts = createAsyncThunk(
-  'products/fetch',
-  async ({ skip }) => {
-    const response = await axios.get(`https://dummyjson.com/products?limit=10&skip=${skip}`);
-    return response.data.products;
-  },
-);
+export const fetchProducts = createAsyncThunk('products/fetch', async ({ skip }) => {
+  const response = await axios.get(`https://dummyjson.com/products?limit=10&skip=${skip}`);
+  return response.data.products;
+});
 
-export const searchProducts = createAsyncThunk(
-  'products/search',
-  async (query) => {
-    const response = await axios.get(`https://dummyjson.com/products/search?q=${query}`);
-    return response.data.products;
-  },
-);
+export const searchProducts = createAsyncThunk('products/search', async (query) => {
+  const response = await axios.get(`https://dummyjson.com/products/search?q=${query}`);
+  return response.data.products;
+});
 
 const productSlice = createSlice({
   name: 'product',
   initialState: {
     items: [],
-    status: 'idle',
+    status: 'idle', // idle | loading | succeeded | failed
     skip: 0,
     query: '',
-    loading: false,
-    error: null,
   },
   reducers: {
     resetProducts(state) {
@@ -42,33 +35,28 @@ const productSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      // fetchProducts
       .addCase(fetchProducts.pending, (state) => {
-        state.loading = true;
         state.status = 'loading';
       })
       .addCase(fetchProducts.fulfilled, (state, action) => {
         state.items = [...state.items, ...action.payload];
-        state.status = 'success';
-        state.loading = false;
+        state.status = 'succeeded';
       })
-      .addCase(fetchProducts.rejected, (state, action) => {
+      .addCase(fetchProducts.rejected, (state) => {
         state.status = 'failed';
-        state.loading = false;
-        state.error = action.error.message;
       })
+
+      // searchProducts
       .addCase(searchProducts.pending, (state) => {
-        state.loading = true;
         state.status = 'loading';
       })
       .addCase(searchProducts.fulfilled, (state, action) => {
         state.items = action.payload;
-        state.status = 'success';
-        state.loading = false;
+        state.status = 'succeeded';
       })
-      .addCase(searchProducts.rejected, (state, action) => {
+      .addCase(searchProducts.rejected, (state) => {
         state.status = 'failed';
-        state.loading = false;
-        state.error = action.error.message;
       });
   },
 });

@@ -1,4 +1,4 @@
-/* eslint-disable curly */
+// screens/HomeScreen.js
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
 import React, { useEffect } from 'react';
@@ -20,16 +20,14 @@ import ProductCard from '../components/ProductCard';
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
-  const { items, skip, query, loading } = useSelector((state) => state.product);
+  const { items, skip, query, status } = useSelector((state) => state.product);
 
   useEffect(() => {
     dispatch(fetchProducts({ skip: 0 }));
   }, []);
 
-  console.log(items);
-
   const handleLoadMore = () => {
-    if (!loading) {
+    if (status !== 'loading') {
       dispatch(incrementSkip());
       dispatch(fetchProducts({ skip: skip + 10 }));
     }
@@ -39,20 +37,24 @@ const HomeScreen = () => {
     dispatch(setQuery(text));
     if (text.length > 1) {
       dispatch(searchProducts(text));
+    } else {
+      dispatch(fetchProducts({ skip: 0 }));
     }
   };
 
   const renderFooter = () => {
-    if (!loading) return null;
-    return (
-      <View style={{ paddingVertical: 20 }}>
-        <ActivityIndicator size="medium" color="#007AFF" />
-      </View>
-    );
+    if (status === 'loading') {
+      return (
+        <View style={{ paddingVertical: 20 }}>
+          <ActivityIndicator size="large" color="#6CC51D" />
+        </View>
+      );
+    }
+    return null;
   };
 
   return (
-    <View>
+    <View style={{ flex: 1 }}>
       <TextInput
         style={styles.search}
         placeholder="Search products..."
