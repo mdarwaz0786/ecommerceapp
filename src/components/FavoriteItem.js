@@ -1,4 +1,3 @@
-// components/FavoriteItem.js
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { useDispatch } from 'react-redux';
