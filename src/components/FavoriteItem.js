@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
   },
   price: {
     fontSize: 14,
-    color: 'green',
+    color: '#6CC51D',
     marginBottom: 6,
   },
   removeText: {
