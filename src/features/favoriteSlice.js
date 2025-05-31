@@ -5,12 +5,12 @@ const favoriteSlice = createSlice({
   initialState: [],
   reducers: {
     toggleFavorite: (state, { payload }) => {
-      const index = state.findIndex(item => item.id === payload.id);
+      const index = state.findIndex((item) => item.id === payload.id);
       if (index >= 0) {
         state.splice(index, 1);
       } else {
         state.push(payload);
-      }
+      };
     },
   },
 });

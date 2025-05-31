@@ -74,10 +74,7 @@ const ProductCard = ({ item }) => {
 
       <View style={styles.infoContainer}>
         <Text style={styles.price}>${item.price}</Text>
-        <Text style={styles.title} numberOfLines={1}>
-          {item.title}
-        </Text>
-
+        <Text style={styles.title} numberOfLines={1}>{item.title}</Text>
         <View style={styles.divider} />
 
         {cartItem && cartItem.quantity > 0 ? (

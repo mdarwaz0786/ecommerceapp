@@ -7,7 +7,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import CartItem from '../components/CartItem';
 
 const CartScreen = () => {
-  const cart = useSelector(state => state.cart);
+  const cart = useSelector((state) => state.cart);
   const navigation = useNavigation();
 
   const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -24,7 +24,7 @@ const CartScreen = () => {
       </View>
       {
         (cart.length === 0) ? (
-          <Text style={{ textAlign: 'center', fontSize: 16, color: '#777', marginVertical: 20 }}>No item in card</Text>
+          <Text style={{ textAlign: 'center', fontSize: 16, color: '#777', marginVertical: 20 }}>No item in cart.</Text>
         ) : (
           <ScrollView style={{ padding: 10 }}>
             <FlatList
